@@ -1,25 +1,3 @@
 <h1>Listing Planets</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Climate</th>
-      <th>Population</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="planets">
-    <%= for planet <- @planets do %>
-      <tr id={"planet-#{planet["id"]}"}>
-        <td><%= planet["name"] %></td>
-        <td><%= planet["climate"] %></td>
-        <td><%= planet["population"] %></td>
-
-        <td>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<Table.table columns={["Name", "Climate", "Population", "Diameter"]} planets={@planets} />
