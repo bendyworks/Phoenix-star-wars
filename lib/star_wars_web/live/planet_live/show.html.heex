@@ -1,0 +1,26 @@
+<h1>Show Planet</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.planet_show_path(@socket, :show, @planet)}>
+    <.live_component
+      module={StarWarsWeb.PlanetLive.FormComponent}
+      id={@planet.id}
+      title={@page_title}
+      action={@live_action}
+      planet={@planet}
+      return_to={Routes.planet_show_path(@socket, :show, @planet)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @planet.name %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.planet_show_path(@socket, :edit, @planet), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.planet_index_path(@socket, :index) %></span>
