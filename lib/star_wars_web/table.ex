@@ -25,7 +25,7 @@ defmodule Table do
     <thead>
       <tr>
         <%= for column <- @columns do %>
-          <th><%= column %></th>
+          <th><span phx-click="sort" phx-value-col={column} phx-target={assigns.myself} ><%= column %></span></th>
         <% end %>
       </tr>
     </thead>
@@ -45,7 +45,7 @@ defmodule Table do
   def table(assigns) do
     ~H"""
     <table>
-      <.head columns={@columns} />
+      <.head columns={@columns} myself={@myself} />
       <.body columns={@columns} planets={@planets} />
     </table>
     """

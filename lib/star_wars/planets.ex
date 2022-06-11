@@ -24,7 +24,7 @@ defmodule StarWars.Planets do
 
   defp fetch_json(path) do
     url = "#{@base}#{path}"
-    IO.inspect(url)
+    # IO.inspect(url)
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{body: body, status_code: 200}} ->

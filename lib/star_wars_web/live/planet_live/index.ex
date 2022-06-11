@@ -6,7 +6,6 @@ defmodule StarWarsWeb.PlanetLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     planets = list_planets()
-    IO.inspect(planets)
     {:ok, assign(socket, :planets, planets)}
   end
 
