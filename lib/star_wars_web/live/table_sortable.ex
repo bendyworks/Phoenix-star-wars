@@ -8,7 +8,7 @@ defmodule SortableTable do
   def render(assigns) do
     ~H"""
     <div id="sortable">
-    <Table.table columns={["Name", "Climate", "Population", "Diameter"]} planets={@content} myself={assigns.myself} />
+    <Table.table columns={["Name", "Climate", "Population", "Diameter"]} content={@content} myself={assigns.myself} />
     </div>
     """
   end
