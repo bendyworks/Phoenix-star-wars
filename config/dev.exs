@@ -1,9 +1,9 @@
 import Config
 
 config :star_wars, StarWars.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
+  username: System.get_env("POSTGRES_USER", "postgres"),
+  password: System.get_env("POSTGRES_PASSWORD", "postgres"),
+  hostname: System.get_env("POSTGRES_HOSTNAME", "localhost"),
   database: "star_wars_dev",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
