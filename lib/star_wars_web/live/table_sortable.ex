@@ -2,13 +2,13 @@ defmodule SortableTable do
   use StarWarsWeb, :live_component
 
   def update(assigns, socket) do
-    {:ok, assign(socket, content: assigns.content, sorted_col: nil, sort_dir: nil)}
+    {:ok, assign(socket, content: assigns.content, columns: assigns.columns, sorted_col: nil, sort_dir: nil)}
   end
 
   def render(assigns) do
     ~H"""
     <div id="sortable">
-    <Table.table columns={["Name", "Climate", "Population", "Diameter"]} planets={@content} myself={assigns.myself} />
+    <Table.table columns={@columns} content={@content} myself={assigns.myself} />
     </div>
     """
   end
@@ -17,16 +17,16 @@ defmodule SortableTable do
     col = String.downcase(col)
     dir = calc_dir(col, socket.assigns.sorted_col, socket.assigns.sort_dir)
 
-    socket
-    |> assign(
-      content:
-        socket.assigns.content
-        |> Enum.sort_by(&converter(&1, col), dir),
-      sorted_col: col,
-      sort_dir: dir
-    )
+    content = socket.assigns.content
+    |> Enum.sort_by(&Map.get(&1, String.to_atom(col)), dir)
 
-    {:noreply, socket}
+    {:noreply, socket
+      |> assign(
+        content: content,
+        sorted_col: col,
+        sort_dir: dir
+      )
+    }
   end
 
   def calc_dir(col, old_col, old_dir) do
@@ -37,10 +37,4 @@ defmodule SortableTable do
     end
   end
 
-  def converter(a, col) do
-    case Integer.parse(a[col]) do
-      {val, _} -> val
-      :error -> a[col]
-    end
-  end
 end

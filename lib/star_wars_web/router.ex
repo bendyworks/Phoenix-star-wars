@@ -19,6 +19,7 @@ defmodule StarWarsWeb.Router do
 
     get "/", PageController, :index
     live "/planets", PlanetLive.Index, :index
+    live "/planets/:planet", PlanetLive.Show, :show
   end
 
   # Other scopes may use custom stacks.

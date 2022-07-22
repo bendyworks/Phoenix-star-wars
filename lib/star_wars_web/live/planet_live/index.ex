@@ -5,7 +5,7 @@ defmodule StarWarsWeb.PlanetLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    planets = list_planets()
+    planets = Planets.list_planets()
     {:ok, assign(socket, :planets, planets)}
   end
 
@@ -20,10 +20,4 @@ defmodule StarWarsWeb.PlanetLive.Index do
     |> assign(:planet, nil)
   end
 
-  defp list_planets do
-    case Planets.list_planets() do
-      {:ok, planets} -> planets
-      {:error, _} -> []
-    end
-  end
 end

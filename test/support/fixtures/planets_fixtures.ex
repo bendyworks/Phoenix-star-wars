@@ -11,7 +11,10 @@ defmodule StarWars.PlanetsFixtures do
     {:ok, planet} =
       attrs
       |> Enum.into(%{
-        name: "some name"
+        name: "some name",
+        climate: "some climate",
+        population: 0,
+        diameter: 0
       })
       |> StarWars.Planets.create_planet()
 

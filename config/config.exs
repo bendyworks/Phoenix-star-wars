@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+config :star_wars,
+  ecto_repos: [StarWars.Repo]
+
 # Configures the endpoint
 config :star_wars, StarWarsWeb.Endpoint,
   url: [host: "localhost"],

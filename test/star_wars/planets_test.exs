@@ -2,13 +2,13 @@ defmodule StarWars.PlanetsTest do
   use StarWars.DataCase
 
   alias StarWars.Planets
+  alias StarWars.Planets.Planet
 
   describe "planets" do
-    alias StarWars.Planets.Planet
 
     import StarWars.PlanetsFixtures
 
-    @invalid_attrs %{name: nil}
+    @invalid_attrs %{climate: nil, diameter: nil, name: nil, population: nil}
 
     test "list_planets/0 returns all planets" do
       planet = planet_fixture()
@@ -21,10 +21,13 @@ defmodule StarWars.PlanetsTest do
     end
 
     test "create_planet/1 with valid data creates a planet" do
-      valid_attrs = %{name: "some name"}
+      valid_attrs = %{climate: "some climate", diameter: 42, name: "some name", population: 42}
 
       assert {:ok, %Planet{} = planet} = Planets.create_planet(valid_attrs)
+      assert planet.climate == "some climate"
+      assert planet.diameter == 42
       assert planet.name == "some name"
+      assert planet.population == 42
     end
 
     test "create_planet/1 with invalid data returns error changeset" do
@@ -33,10 +36,13 @@ defmodule StarWars.PlanetsTest do
 
     test "update_planet/2 with valid data updates the planet" do
       planet = planet_fixture()
-      update_attrs = %{name: "some updated name"}
+      update_attrs = %{climate: "some updated climate", diameter: 43, name: "some updated name", population: 43}
 
       assert {:ok, %Planet{} = planet} = Planets.update_planet(planet, update_attrs)
+      assert planet.climate == "some updated climate"
+      assert planet.diameter == 43
       assert planet.name == "some updated name"
+      assert planet.population == 43
     end
 
     test "update_planet/2 with invalid data returns error changeset" do

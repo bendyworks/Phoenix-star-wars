@@ -8,6 +8,8 @@ defmodule StarWars.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      # Start the Ecto repository
+      StarWars.Repo,
       # Start the Telemetry supervisor
       StarWarsWeb.Telemetry,
       # Start the PubSub system

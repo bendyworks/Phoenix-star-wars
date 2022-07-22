@@ -1,5 +1,6 @@
 defmodule Table do
   use Phoenix.Component
+  require IEx
 
   # Optionally also bring the HTML helpers
   # use Phoenix.HTML
@@ -11,10 +12,12 @@ defmodule Table do
   end
 
   def row(assigns) do
+    # IEx.pry
+
     ~H"""
     <tr id={@id}>
       <%= for column <- @columns do %>
-        <.cell value={@planet[String.downcase(column)]} />
+        <.cell value={@row |> Map.get(String.downcase(column) |> String.to_atom)} />
       <% end %>
     </tr>
     """
@@ -35,8 +38,8 @@ defmodule Table do
   def body(assigns) do
     ~H"""
     <tbody>
-      <%= for planet <- @planets do %>
-        <.row columns={@columns} planet={planet} id={"planet-#{planet["name"]}"} />
+      <%= for row <- @content do %>
+        <.row columns={@columns} row={row} id={"planet-#{row.name}"} />
       <% end %>
     </tbody>
     """
@@ -46,7 +49,7 @@ defmodule Table do
     ~H"""
     <table>
       <.head columns={@columns} myself={@myself} />
-      <.body columns={@columns} planets={@planets} />
+      <.body columns={@columns} content={@content} />
     </table>
     """
   end
