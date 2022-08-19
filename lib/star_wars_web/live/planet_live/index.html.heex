@@ -1,3 +1,13 @@
 <h1>Listing Planets</h1>
 
-<.live_component module={SortableTable} id="sortable" content={@planets} columns={["Name", "Climate", "Population", "Diameter"]} />
+<.live_component
+  module={SortableTable}
+  id="sortable"
+  content={@planets}
+  columns={[
+    %{header: "Name", key: :name},
+    %{header: "Climate", key: :climate},
+    %{header: "Population", key: :population, formatter: &StarWarsWeb.PlanetLive.Index.number_formatter/1},
+    %{header: "Diameter", key: :diameter, formatter: &StarWarsWeb.PlanetLive.Index.number_formatter/1}
+  ]}
+/>

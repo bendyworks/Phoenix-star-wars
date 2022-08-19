@@ -2,6 +2,7 @@ defmodule StarWarsWeb.PlanetLive.Index do
   use StarWarsWeb, :live_view
 
   alias StarWars.Planets
+  alias Number.Delimit
 
   @impl true
   def mount(_params, _session, socket) do
@@ -18,6 +19,10 @@ defmodule StarWarsWeb.PlanetLive.Index do
     socket
     |> assign(:page_title, "Listing Planets")
     |> assign(:planet, nil)
+  end
+
+  def number_formatter(value) do
+    Delimit.number_to_delimited(value, precision: 0)
   end
 
 end
