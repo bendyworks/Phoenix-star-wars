@@ -118,3 +118,13 @@
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+.sorted-asc:after {
+  content: "\21E7";
+  float: right;
+}
+
+.sorted-desc:after {
+  content: "\21E9";
+  float: right;
+}

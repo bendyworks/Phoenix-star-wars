@@ -8,17 +8,22 @@ defmodule SortableTable do
   def render(assigns) do
     ~H"""
     <div id="sortable">
-    <Table.table columns={@columns} content={@content} myself={assigns.myself} />
+    <Table.table
+      columns={@columns}
+      content={@content}
+      myself={@myself}
+      sort={%{column: @sorted_col, direction: @sort_dir}} />
     </div>
     """
   end
 
   def handle_event("sort", %{"col" => col}, socket) do
-    col = String.downcase(col)
-    dir = calc_dir(col, socket.assigns.sorted_col, socket.assigns.sort_dir)
+    %{sorted_col: sorted_col, sort_dir: sort_dir} = socket.assigns
+    col = String.to_existing_atom(col)
+    dir = calc_dir(col, sorted_col, sort_dir)
 
     content = socket.assigns.content
-    |> Enum.sort_by(&Map.get(&1, String.to_atom(col)), dir)
+    |> Enum.sort_by(&Map.get(&1, col), dir)
 
     {:noreply, socket
       |> assign(
@@ -32,9 +37,7 @@ defmodule SortableTable do
   def calc_dir(col, old_col, old_dir) do
     case {col == old_col, old_dir} do
       {true, :asc} -> :desc
-      # {true, :desc} -> :asc
       {_, _} -> :asc
     end
   end
-
 end
