@@ -119,6 +119,15 @@
   100% { opacity: 0; }
 }
 
+header.table_header {
+  border: 0 none;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .sorted-asc:after {
   content: "\21E7";
   float: right;

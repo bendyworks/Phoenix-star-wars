@@ -1,4 +1,11 @@
-<h1>Listing Planets</h1>
+<header class="table_header">
+  <h1>Listing Planets</h1>
+  <.live_component
+    module={LivePagination}
+    id="pagination"
+    pagination_options={@pagination_options}
+  />
+</header>
 
 <.live_component
   module={SortableTable}

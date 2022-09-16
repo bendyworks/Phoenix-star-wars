@@ -22,6 +22,7 @@ defmodule SortableTable do
     col = String.to_existing_atom(col)
     dir = calc_dir(col, sorted_col, sort_dir)
 
+
     content = socket.assigns.content
     |> Enum.sort_by(&Map.get(&1, col), dir)
 
