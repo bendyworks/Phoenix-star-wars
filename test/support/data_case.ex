@@ -10,7 +10,7 @@ defmodule StarWars.DataCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use BigDb.DataCase, async: true`, although
+  by setting `use StarWars.DataCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -28,9 +28,16 @@ defmodule StarWars.DataCase do
   end
 
   setup tags do
+    StarWars.DataCase.setup_sandbox(tags)
+    :ok
+  end
+
+  @doc """
+  Sets up the sandbox based on the test tags.
+  """
+  def setup_sandbox(tags) do
     pid = Ecto.Adapters.SQL.Sandbox.start_owner!(StarWars.Repo, shared: not tags[:async])
     on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
-    :ok
   end
 
   @doc """
