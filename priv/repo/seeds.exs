@@ -10,18 +10,24 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+alias StarWars.Repo
 alias StarWars.Swapi
 alias StarWars.Planets
+alias StarWars.Planets.Planet
 
-Swapi.list_planets()
-|> Enum.each(fn el ->
-  pop = if el["population"] == "unknown", do: 0, else: String.to_integer(el["population"])
-  dia = if el["diameter"] == "unknown", do: 0, else: String.to_integer(el["diameter"])
-  Planets.create_planet(%{
-    name: el["name"],
-    climate: el["climate"],
-    diameter: dia,
-    population: pop
-  })
-  |> IO.inspect
-end)
+Repo.delete_all(Planet)
+
+if Mix.env == :dev do
+  Swapi.list_planets()
+  |> Enum.each(fn el ->
+    pop = if el["population"] == "unknown", do: 0, else: String.to_integer(el["population"])
+    dia = if el["diameter"] == "unknown", do: 0, else: String.to_integer(el["diameter"])
+    Planets.create_planet(%{
+      name: el["name"],
+      climate: el["climate"],
+      diameter: dia,
+      population: pop
+    })
+    # |> IO.inspect
+  end)
+end

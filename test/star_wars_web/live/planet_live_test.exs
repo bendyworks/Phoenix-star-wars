@@ -1,6 +1,5 @@
 defmodule StarWarsWeb.PlanetLiveTest do
   use StarWarsWeb.ConnCase
-  use StarWars.DataCase
 
   import Phoenix.LiveViewTest
   import StarWars.PlanetsFixtures
