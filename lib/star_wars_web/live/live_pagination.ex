@@ -8,9 +8,7 @@ defmodule LivePagination do
   }
 
   def update(assigns, socket) do
-    IO.inspect(assigns, label: "update assigns -------->>")
-    opts = Map.merge(@default_opts, assigns.pagination_options)
-    {:ok, assign(socket, opts)}
+    {:ok, assign(socket, Map.merge(@default_opts, assigns.pagination_options))}
   end
 
   def render(assigns) do
@@ -24,8 +22,7 @@ defmodule LivePagination do
     page = if page < 1 or page > total_pages, do: 1, else: page
     if connected?(socket) do
       # send(self(), {:update, %{page: page}})
-      # send(self(), :update_page)
-      send(self(), :testing)
+      send(self(), {:update_page, %{page: page}})
       IO.inspect(self(), label: "page event")
     else
       IO.inspect("not connected")
@@ -38,7 +35,7 @@ defmodule LivePagination do
     page_size = if page_size < 1, do: 10, else: page_size
     if connected?(socket) do
       IO.inspect(page_size, label: "page_size event")
-      send(self(), {:update, %{page_size: page_size}})
+      send(self(), {:update_page_size, %{page_size: page_size}})
     end
     {:noreply, socket |> assign(page_size: page_size, page: 1)}
   end

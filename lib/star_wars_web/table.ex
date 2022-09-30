@@ -9,7 +9,7 @@ defmodule Table do
     if column == key do
       "sorted-#{direction}"
     else
-      ""
+      "unsorted"
     end
   end
 

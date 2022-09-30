@@ -137,3 +137,9 @@ header.table_header {
   content: "\21E9";
   float: right;
 }
+
+.unsorted:after {
+  content: "\21D5";
+  float: right;
+  color: lightgray;
+}

@@ -12,8 +12,15 @@ defmodule StarWarsWeb.PlanetLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    IO.inspect(self(), label: "parent pid")
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  @impl true
+  def handle_info({:update_page, %{page: page}}, socket) do
+    page_size = 10
+    path = Routes.planet_index_path(socket, :index, %{page: page, page_size: page_size})
+    IO.inspect(path, label: "update_page")
+    {:noreply, push_patch(socket, to: path)}
   end
 
   @impl true
@@ -22,19 +29,15 @@ defmodule StarWarsWeb.PlanetLive.Index do
     {:noreply, socket |> assign(something: "whatever")}
   end
 
-  @empl true
-  def handle_info(:testing, socket) do
-    IO.inspect("found", label: "testing")
-  end
-
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params) do
+    opts = Map.merge(%{
+      total_records: 101,
+      page_size_control: "builtin"
+    }, params)
     socket
     |> assign(:page_title, "Listing Planets")
     |> assign(:planet, nil)
-    |> assign(:pagination_options, %{
-      total_records: 101,
-      page_size_control: "builtin"
-    })
+    |> assign(:pagination_options, opts)
   end
 
   def number_formatter(value) do
