@@ -119,6 +119,15 @@
   100% { opacity: 0; }
 }
 
+header.table_header {
+  border: 0 none;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .sorted-asc:after {
   content: "\21E7";
   float: right;
@@ -127,4 +136,10 @@
 .sorted-desc:after {
   content: "\21E9";
   float: right;
+}
+
+.unsorted:after {
+  content: "\21D5";
+  float: right;
+  color: lightgray;
 }
