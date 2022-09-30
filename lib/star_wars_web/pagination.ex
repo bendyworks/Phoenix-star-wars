@@ -7,7 +7,7 @@ defmodule Pagination do
   def prev_button(assigns) do
     ~H"""
     <%= if @page > 1 do %>
-    <a phx-target={@myself} phx-click="page" phx-value={@page - 1}>&lt;</a>
+    <a phx-target={@myself} phx-click="page" phx-value-page={@page - 1}>&lt;</a>
     <% end %>
     """
   end

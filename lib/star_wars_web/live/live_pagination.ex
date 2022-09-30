@@ -21,9 +21,7 @@ defmodule LivePagination do
     page = String.to_integer(page)
     page = if page < 1 or page > total_pages, do: 1, else: page
     if connected?(socket) do
-      # send(self(), {:update, %{page: page}})
       send(self(), {:update_page, %{page: page}})
-      IO.inspect(self(), label: "page event")
     else
       IO.inspect("not connected")
     end

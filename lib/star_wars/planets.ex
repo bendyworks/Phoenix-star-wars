@@ -3,7 +3,7 @@ defmodule StarWars.Planets do
   The Planets context.
   """
 
-  alias StarWars.Repo
+  alias StarWars.{Repo, Pagination}
   alias StarWars.Planets.Planet
   import Ecto.Query
 
@@ -17,6 +17,23 @@ defmodule StarWars.Planets do
     optional(:filter) => atom(),
     optional(:filter_value) => any()
   }
+
+  @spec count_planets() :: list(%Planet{})
+  @spec count_planets(query_options()) :: list(%Planet{})
+  @doc """
+  returns the total count of records
+
+  ## Examples
+
+    iex> count_planets()
+    2
+
+  """
+  def count_planets(opts \\ %{}) do
+    Planet
+    |> filter(opts)
+    |> Pagination.page_count()
+  end
 
   @spec list_planets() :: list(%Planet{})
   @spec list_planets(query_options()) :: list(%Planet{})
@@ -127,19 +144,11 @@ defmodule StarWars.Planets do
 
   # takes a query and opts and returns a query with the opts for page and page_size applied
   defp paginate(q, opts) do
-    limit = if Map.has_key?(opts, :page_size), do: opts.page_size, else: 0
-    offset = if Map.has_key?(opts, :page) do
-      page = opts.page - 1
-      page = if page <= 0, do: 0, else: page
-      page * limit
-    else
-      0
+    page_size = if Map.has_key?(opts, :page_size), do: opts.page_size, else: 0
+    page = if Map.has_key?(opts, :page) do
+      if opts.page < 1, do: 1, else: opts.page
     end
-    if limit > 0 do
-      q |> limit(^limit) |> offset(^offset)
-    else
-      q
-    end
+    q |> Pagination.query(page, page_size)
   end
 
   # takes a query and opts and returns a query with the opts for sort and sort_dir applied
@@ -171,17 +180,13 @@ defmodule StarWars.Planets do
     value = if filter != :none && value != :none do
       attrs = Map.new([{filter, value}])
       changeset = Ecto.Changeset.cast(%Planet{}, attrs, [filter])
-      if changeset.valid? do
-        Map.get(changeset.changes, filter)
-      else
-        :none
-      end
+      if changeset.valid?, do: Map.get(changeset.changes, filter), else: :none
     else
       :none
     end
-    if filter != :none && value != :none do
+    if value != :none do
       if is_binary(value) do
-        where(q, [p], ilike(filter, ^"#{value}%"))
+        where(q, [p], ilike(field(p, ^filter), ^"#{value}%"))
       else
         value = [filter, value]
         where(q, ^value)

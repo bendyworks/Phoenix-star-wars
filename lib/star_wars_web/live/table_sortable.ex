@@ -21,14 +21,10 @@ defmodule SortableTable do
     %{sorted_col: sorted_col, sort_dir: sort_dir} = socket.assigns
     col = String.to_existing_atom(col)
     dir = calc_dir(col, sorted_col, sort_dir)
-
-
-    content = socket.assigns.content
-    |> Enum.sort_by(&Map.get(&1, col), dir)
+    send(self(), {:update_page, %{sort: col, sort_dir: dir}})
 
     {:noreply, socket
       |> assign(
-        content: content,
         sorted_col: col,
         sort_dir: dir
       )
